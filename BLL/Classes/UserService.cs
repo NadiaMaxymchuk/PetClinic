@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BLL.Classes
 {
-    public  class Pet: IPet
+    public class UserService: IUserService
     {
     }
 }

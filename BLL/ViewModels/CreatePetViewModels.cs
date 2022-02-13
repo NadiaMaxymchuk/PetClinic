@@ -5,12 +5,12 @@ using System.Text;
 
 namespace BLL.ViewModels
 {
-    public  class CretePetViewModels
+    public  class CreatePetViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int OwnerId { get; set; }
-        public User Owner { get; set; }
+        public UserService Owner { get; set; }
         public string PetType { get; set; }
     }
 }

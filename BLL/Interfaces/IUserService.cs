@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BLL.Interfaces
 {
-    public class IAppointment
+    public interface IUserService
     {
     }
 }

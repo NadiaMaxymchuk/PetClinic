@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BLL.Classes
 {
-    public class User: IUser
+    public  class AppointmentService: IAppointmentService
     {
     }
 }

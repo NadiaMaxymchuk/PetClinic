@@ -11,6 +11,6 @@ namespace Domain.Models
         public int OwnerId { get; set; }
         public User Owner { get; set; }
         public string PetType { get; set; }
-
+        public ICollection<Appointment> Appointments { get; set; }  
     }
 }

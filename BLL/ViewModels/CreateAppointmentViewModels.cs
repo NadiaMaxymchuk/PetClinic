@@ -12,8 +12,8 @@ namespace BLL.ViewModels
         public string Description { get; set; }
         public DateTime DateVisit { get; set; }
         public int DoctorId { get; set; }
-        public User Doctor { get; set; }
+        public UserService Doctor { get; set; }
         public int PetId { get; set; }
-        public Pet Pet { get; set; }
+        public PetService Pet { get; set; }
     }
 }

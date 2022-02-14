@@ -1,3 +1,5 @@
+using AutoMapper;
+using BLL;
 using BLL.Classes;
 using BLL.Interfaces;
 using Domain;
@@ -56,12 +58,18 @@ namespace PetClinic
                             ValidateIssuerSigningKey = true,
                         };
                     });
-            services.AddControllersWithViews();
 
             services.AddDbContext<PetClinicDBContext>(options =>
             {
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DBConnection"));
             });
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProFile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddTransient<IPetService, PetService>();
             services.AddTransient<IUserService,UserService>();
@@ -77,30 +85,23 @@ namespace PetClinic
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Employee API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pet API");
             });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }

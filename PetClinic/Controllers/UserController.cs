@@ -3,6 +3,7 @@ using BLL.ViewModels;
 using Domain.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,16 @@ namespace PetClinic.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AccountController: ControllerBase
+    public class UserController: ControllerBase
     {
         private readonly IUserService _userService;
-        public AccountController(IUserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
 
         [HttpGet]
+        [Route("login")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -43,6 +45,7 @@ namespace PetClinic.Controllers
         }
 
         [HttpPost]
+        [Route("register")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(CreateUserViewModels model)
         {
@@ -79,10 +82,21 @@ namespace PetClinic.Controllers
         }
 
         [HttpGet]
+        [Route("logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Ok();
         }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete]
+        [Route("delete")]
+        public void BlockUser(int Id)
+        {
+            _userService.BlockUserById(Id);
+        }
+
+        
     }
 }

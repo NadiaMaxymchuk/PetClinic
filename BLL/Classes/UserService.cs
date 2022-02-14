@@ -26,8 +26,13 @@ namespace BLL.Classes
         public int Register(CreateUserViewModels model)
         {
             var account = mapper.Map<CreateUserViewModels, User>(model);
+
+            account.IsActive=true;
             account.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
+
             context.Add(account);
+
+            context.SaveChanges();
 
             return account.Id;
         }
@@ -51,6 +56,17 @@ namespace BLL.Classes
         {
             var user = context.Users.FirstOrDefault(x=>x.Id == Id);
             return mapper.Map<UserViewModel>(user);
+        }
+
+        public void BlockUserById(int Id)
+        {
+            var user = context.Users.FirstOrDefault(x => x.Id == Id);
+            if (user != null)
+            {
+                user.IsActive = false;
+            }
+
+            context.SaveChanges();
         }
     }
 }

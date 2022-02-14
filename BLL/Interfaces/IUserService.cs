@@ -12,5 +12,6 @@ namespace BLL.Interfaces
         public UserViewModel GetById(int Id);
         public UserViewModel GetByEmail(string email);
         public int Register(CreateUserViewModels model);
+        public void BlockUserById(int Id);
     }
 }
